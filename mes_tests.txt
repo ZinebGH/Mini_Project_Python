@@ -1,0 +1,162 @@
+Doctests pour chaque méthode implémentée :
+- charger_donnees()
+- points_articulation()
+- ponts()
+- amelioration_ponts()
+- amelioration_points_articulation()
+
+>>> from graphe import *
+>>> from ameliorations import *
+
+############################## Initialisation des graphes ################################
+
+>>> G1 = Graphe()
+>>> G1.ajouter_sommets(zip('abcdefghijklmnopqrstuvw', [None] * 23))
+>>> G1.ajouter_aretes([
+...			('a', 'b', None), ('b', 'c', None), ('c', 'd', None), ('d', 'a', None),
+...			('a', 'c', None), ('b', 'd', None), ('c', 'e', None), ('e', 'f', None),
+...			('f', 'g', None), ('g', 'e', None), ('e', 'h', None), ('h', 'i', None),
+...			('i', 'e', None), ('i', 'j', None), ('e', 'k', None), ('k', 'l', None),
+...			('l', 'm', None), ('m', 'n', None), ('n', 'k', None), ('m', 'o', None),
+...			('o', 'p', None), ('p', 'q', None), ('q', 's', None), ('s', 'p', None),
+...			('q', 'r', None), ('p', 'r', None), ('o', 'r', None), ('r', 't', None),
+...			('r', 'u', None), ('u', 'v', None), ('u', 'w', None), ('v', 'w', None)
+...					])
+
+>>> G2 = Graphe()
+>>> G2.ajouter_sommets(zip('abcdefghijklm', [None] * 13))
+>>> G2.ajouter_aretes([
+...			('a', 'b', None), ('b', 'c', None), ('c', 'd', None), ('d', 'e', None),
+...			('e', 'f', None), ('f', 'a', None), ('b', 'g', None), ('g', 'h', None),
+...			('e', 'i', None), ('i', 'j', None), ('l', 'k', None)
+...					])
+
+>>> G3 = Graphe()
+>>> G3.ajouter_sommet('a', None)
+
+>>> G4 = Graphe()
+
+>>> G5 = Graphe()
+>>> charger_donnees(G5, "METRO_1.txt")
+>>> charger_donnees(G5, "METRO_2.txt")
+>>> charger_donnees(G5, "METRO_3.txt")
+>>> charger_donnees(G5, "METRO_3b.txt")
+>>> charger_donnees(G5, "METRO_4.txt")
+>>> charger_donnees(G5, "METRO_5.txt")
+>>> charger_donnees(G5, "METRO_6.txt")
+>>> charger_donnees(G5, "METRO_7.txt")
+>>> charger_donnees(G5, "METRO_7b.txt")
+>>> charger_donnees(G5, "METRO_8.txt")
+>>> charger_donnees(G5, "METRO_9.txt")
+>>> charger_donnees(G5, "METRO_10.txt")
+>>> charger_donnees(G5, "METRO_11.txt")
+>>> charger_donnees(G5, "METRO_12.txt")
+>>> charger_donnees(G5, "METRO_13.txt")
+>>> charger_donnees(G5, "METRO_14.txt")
+>>> charger_donnees(G5, "RER_A.txt")
+>>> charger_donnees(G5, "RER_B.txt")
+
+############################ Forme des réseaux ##############################
+
+>>> len(G1.sommets())
+23
+>>> len(G2.sommets())
+13
+>>> len(G3.sommets())
+1
+>>> len(G4.sommets())
+0
+>>> len(G5.sommets())
+388
+
+>>> len(G1.aretes())
+32
+>>> len(G2.aretes())
+11
+>>> len(G3.aretes())
+0
+>>> len(G4.aretes())
+0
+>>> len(G5.aretes())
+461
+
+################## Points d'articulations et les ponts #####################
+
+>>> sorted(points_articulation(G1))
+['c', 'e', 'i', 'k', 'm', 'o', 'r', 'u']
+>>> sorted(ponts(G1))
+[('c', 'e'), ('e', 'k'), ('i', 'j'), ('m', 'o'), ('r', 't'), ('r', 'u')]
+
+>>> sorted(points_articulation(G2))
+['b', 'e', 'g', 'i']
+>>> sorted(ponts(G2))
+[('b', 'g'), ('e', 'i'), ('g', 'h'), ('i', 'j'), ('k', 'l')]
+
+>>> sorted(points_articulation(G3))
+[]
+>>> sorted(ponts(G3))
+[]
+
+>>> sorted(points_articulation(G4))
+[]
+>>> sorted(ponts(G4))
+[]
+
+>>> len(points_articulation(G5))
+180
+>>> len(ponts(G5))
+191
+
+######################## Suppressions des ponts ############################
+
+>>> for u, v in amelioration_ponts(G1):
+...		G1.ajouter_arete(u, v, None)
+>>> len(ponts(G1))
+0
+
+>>> for u, v in amelioration_ponts(G2):
+...		G2.ajouter_arete(u, v, None)
+>>> len(ponts(G2))
+0
+
+>>> for u, v in amelioration_ponts(G3):
+...		G3.ajouter_arete(u, v, None)
+>>> len(ponts(G3))
+0
+
+>>> for u, v in amelioration_ponts(G4):
+...		G4.ajouter_arete(u, v, None)
+>>> len(ponts(G4))
+0
+
+>>> for u, v in amelioration_ponts(G5):
+...		G5.ajouter_arete(u, v, None)
+>>> len(ponts(G5))
+0
+
+################ Suppressions des points d'articulation ####################
+
+>>> for u, v in amelioration_points_articulation(G1):
+...		G1.ajouter_arete(u, v, None)
+>>> len(points_articulation(G1))
+0
+
+>>> for u, v in amelioration_points_articulation(G2):
+...		G2.ajouter_arete(u, v, None)
+>>> len(points_articulation(G2))
+0
+
+>>> for u, v in amelioration_points_articulation(G3):
+...		G3.ajouter_arete(u, v, None)
+>>> len(points_articulation(G3))
+0
+
+>>> for u, v in amelioration_points_articulation(G4):
+...		G4.ajouter_arete(u, v, None)
+>>> len(points_articulation(G4))
+0
+
+>>> for u, v in amelioration_points_articulation(G5):
+...		G5.ajouter_arete(u, v, None)
+>>> len(points_articulation(G5))
+0
